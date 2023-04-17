@@ -17,9 +17,12 @@ class UserReputationUsecase {
       }
 
       return [...?currentList, ...?response.items];
+    } on DioError catch (e) {
+      print(e.error);
+      rethrow;
     } catch (e, s) {
       Logger().e(() => 'Load user reputation list error $e', e, s);
-      return currentList;
+      rethrow;
     }
   }
 }

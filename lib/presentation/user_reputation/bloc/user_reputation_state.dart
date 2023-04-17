@@ -39,3 +39,11 @@ class GetUserReputationEmpty extends UserReputationState {
 
   const GetUserReputationEmpty({required this.data});
 }
+
+class GetUserReputationFailed extends UserReputationState {
+  @override
+  final List<UserReputationModel> data;
+  final String? message;
+
+  const GetUserReputationFailed({required this.data, this.message});
+}
