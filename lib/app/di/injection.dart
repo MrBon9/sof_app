@@ -10,6 +10,9 @@ Future setupDependencies() async {
 Future _registerAppComponents() async {
   final sharedPreferencesManager = await SharedPreferencesManager.getInstance();
   getIt.registerSingleton<SharedPreferencesManager>(sharedPreferencesManager!);
+
+  final hiveManager = await HiveManager.getInstance();
+  getIt.registerSingleton<HiveManager>(hiveManager);
 }
 
 Future<void> _registerNetworkComponents() async {
@@ -36,4 +39,9 @@ Future<void> _registerNetworkComponents() async {
   );
 
   getIt.registerSingleton(dio);
+}
+
+Future<void> initHiveDatabase() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(UserInformationInDatabaseAdapter());
 }

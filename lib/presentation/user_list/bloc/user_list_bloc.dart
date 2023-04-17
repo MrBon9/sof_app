@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:sof_user_app/app/app.dart';
 import 'package:sof_user_app/app/constant/constants.dart';
+import 'package:sof_user_app/data/local_database/hive_manager.dart';
+import 'package:sof_user_app/data/local_database/models/user_in_db.dart';
 import 'package:sof_user_app/data/models/user.dart';
 import 'package:sof_user_app/services/api/api_repository.dart';
 import 'package:sof_user_app/services/usecases/user_list_usecase.dart';
@@ -15,6 +17,7 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
   int currentPage = 0;
   UserListBloc() : super(UserListInitial()) {
     on<FetchUserListEvent>(_onGetUserList);
+    // on<BookmarkUserEvent>(_onBookmarkUserList);
   }
 
   Future<void> _onGetUserList(
@@ -53,5 +56,21 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
     } catch (e) {
       emit(GetUserListFailed(data: const [], message: e.name));
     }
+  }
+
+  void onBookmarkUser(
+    int userId,
+    bool isBookmarked,
+  ) {
+    getIt.get<HiveManager>().putDataWithKey(
+        HiveBoxName.bookmark.name, userId.toString(), isBookmarked);
+  }
+
+  bool? onGetBookmarkUser(
+    int userId,
+  ) {
+    return getIt
+        .get<HiveManager>()
+        .getDataWithKey(HiveBoxName.bookmark.name, userId.toString());
   }
 }
