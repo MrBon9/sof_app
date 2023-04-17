@@ -13,3 +13,11 @@ class FetchUserListEvent extends UserListEvent {
 
   const FetchUserListEvent({this.page, this.refreshController});
 }
+
+
+// class BookmarkUserEvent extends UserListEvent {
+//   final UserModel user;
+//   final bool isBookmarked;
+
+//   const BookmarkUserEvent({required this.user, required this.isBookmarked});
+// }
